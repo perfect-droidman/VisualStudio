@@ -17,14 +17,20 @@ body {
 }
 
 .flag {
-    width: 150px; /* Adjust the width as necessary to make flags approximately the same size */
+    width: 150px;
+    /* Adjust the width as necessary to make flags approximately the same size */
     height: auto;
-    border: 1px solid #ddd; /* A light border around the flags */
-    border-radius: 5px; /* Optional: Rounds the corners of the flag images */
-    transition: transform 0.3s ease; /* Smooth transition for hovering effect */
+    border: 1px solid #ddd;
+    /* A light border around the flags */
+    border-radius: 5px;
+    /* Optional: Rounds the corners of the flag images */
+    transition: transform 0.3s ease;
+    /* Smooth transition for hovering effect */
 }
 
 .flag:hover {
-    transform: scale(1.1); /* Slightly increase size on hover */
-    cursor: pointer; /* Change the cursor to indicate it's clickable or interactive */
+    transform: scale(1.1);
+    /* Slightly increase size on hover */
+    cursor: pointer;
+    /* Change the cursor to indicate it's clickable or interactive */
 }
