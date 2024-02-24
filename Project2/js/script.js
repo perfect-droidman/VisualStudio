@@ -75,10 +75,21 @@ document.addEventListener('DOMContentLoaded', () => {
             [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
             [0, 4, 8], [2, 4, 6] // Diagonals
         ];
-        return winPatterns.some(pattern => {
+        let win = winPatterns.find(pattern => {
             return pattern.every(index => {
                 return board.children[index].textContent === player;
             });
+        });
+        if (win) {
+            highlightWin(win);
+            return true;
+        }
+        return false;
+    }
+
+    function highlightWin(pattern) {
+        pattern.forEach(index => {
+            board.children[index].style.backgroundColor = '#90ee90'; // Light green to highlight win
         });
     }
 
