@@ -52,19 +52,80 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function computerMove() {
+        // Winning move or block opponent's winning move
+        let move = findWinningMove('O') || findWinningMove('X');
+        if (move !== null) {
+            makeMove(move, 'O');
+            checkGameStatus();
+            return;
+        }
+
+        // Take center
+        if (isEmpty(4)) {
+            makeMove(4, 'O');
+            checkGameStatus();
+            return;
+        }
+
+        // Take a corner
+        const corners = [0, 2, 6, 8];
+        move = corners.find(isEmpty);
+        if (move !== undefined) {
+            makeMove(move, 'O');
+            checkGameStatus();
+            return;
+        }
+
+        // Make a random move
+        makeRandomMove();
+        checkGameStatus();
+    }
+
+    function findWinningMove(player) {
+        const winPatterns = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+        for (let pattern of winPatterns) {
+            const [a, b, c] = pattern;
+            if (board.children[a].textContent === player && board.children[b].textContent === player && isEmpty(c)) {
+                return c;
+            }
+            if (board.children[a].textContent === player && isEmpty(b) && board.children[c].textContent === player) {
+                return b;
+            }
+            if (isEmpty(a) && board.children[b].textContent === player && board.children[c].textContent === player) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    function isEmpty(index) {
+        return board.children[index].textContent === '';
+    }
+
+    function makeMove(index, player) {
+        board.children[index].textContent = player;
+    }
+
+    function makeRandomMove() {
         let availableCells = [...board.children].filter(c => c.textContent === '');
         if (availableCells.length > 0) {
             let randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
             randomCell.textContent = 'O';
-            if (checkWin('O')) {
-                gameStatus.textContent = "O wins!";
-                stopGame();
-                return;
-            } else if (checkTie()) {
-                gameStatus.textContent = "It's a tie!";
-                stopGame();
-                return;
-            }
+        }
+    }
+
+    function checkGameStatus() {
+        if (checkWin('O')) {
+            gameStatus.textContent = "O wins!";
+            stopGame();
+        } else if (checkTie()) {
+            gameStatus.textContent = "It's a tie!";
+            stopGame();
+        } else {
             switchPlayer();
         }
     }
